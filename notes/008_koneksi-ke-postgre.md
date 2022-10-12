@@ -113,3 +113,55 @@ command.Parameters.Clear();
 - Setelah perintah dijalankan, disarankan memanggil method `.Parameters.Clear()` agar insert data selanjutnya dapat memiliki value yang berbeda.
 
 #### Select data
+
+Untuk melakukan query `SELECT`, perintah dimasukkan pada CommandText seperti sebelumnya.
+
+```cs
+command.CommandText = "SELECT * FROM mahasiswa";
+```
+
+Namun method yang dipanggil bukan .ExecuteNonQuery() melainkan `.ExecuteReader()`. Method tersebut akan mengembalikan sebuah objek dari class `NpgsqlDataReader`
+
+```cs
+command.CommandText = "SELECT * FROM mahasiswa";
+NpgsqlDataReader reader;
+reader = command.ExecuteReader();
+```
+
+Pembacaan hasil query dilakukan per baris dengan memanggil method `.Read()`.
+
+```cs
+reader.Read(); // masuk baris ke-1
+reader.Read(); // lanjut baris ke-2
+```
+
+daripada menuliskan method .Read() secara berulang, lebih baik menggunakan looping sembari memanggil method tersebut. Apabila baris sudah habis maka looping akan berhenti.
+
+```cs
+while (reader.Read()) {
+  // iterasi setiap baris
+}
+```
+
+Untuk mengambil datanya menggunakan method sesuai dengan tipe data pada database, dan parameter dari method tersebut merupakan indeks kolom (misalnya ada kolom id dan nama, maka indeks id=0 dan nama=1). Misalnya id bertipe data SERIAL maka perlu memaggil method `.GetInt32(index)` dan nama bertipe data VARCHAR maka perlu memanggil method `.GetString(index)`
+
+```cs
+while (reader.Read()) {
+  int id = reader.GetInt32(0);
+  string nama = reader.GetString(1);
+  Console.WriteLine($"{id} {nama}");
+}
+```
+
+| method     | return type |
+| ---------- | ----------- |
+| GetByte    | byte        |
+| GetChar    | char        |
+| GetDecimal | decimal     |
+| GetDouble  | double      |
+| GetFloat   | float       |
+| GetInt16   | short       |
+| GetInt32   | int         |
+| GetInt64   | long        |
+
+[Lihat lebih lengkap](https://www.npgsql.org/doc/api/Npgsql.NpgsqlDataReader.html#methods)
