@@ -11,6 +11,8 @@
 
 Keyword `ref` dan `out` digunakan untuk mengubah perilaku parameter yang secara default _pass by value \_menajadi \_pass by reference_. Ilustrasi perbedaan:
 ![](https://miro.medium.com/max/1000/1*GXoMWqljArmbjB0ReNioag.gif)
+
+
 Dapat dilihat, method dengan parameter _pass by value_ tidak akan mengubah nilai argument yang dikirimkan melalui variabel. Sedangkan apabila dengan parameter _pass by reference_, perubahan yang terjadi di dalam method juga akan berpengaruh pada argument tersebut berasal (variabel).
 
 #### _Pass by value_
